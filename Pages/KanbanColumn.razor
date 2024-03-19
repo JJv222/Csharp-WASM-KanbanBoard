@@ -1,0 +1,12 @@
+﻿@using KanbanBoard_Blazor.Extensions
+
+<h3>KanbanColumn</h3>
+<table class="table">
+    @foreach (var _task in tasks.Where(x => x.status == status))
+    {
+        <tr>
+            <td class="bg-@colorColumn text-white">@_task.description</td>
+            <td class="bg-@colorColumn text-white">@_task.status.GetEnumDescription()</td>
+        </tr>
+    }
+</table>
