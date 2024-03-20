@@ -1,4 +1,11 @@
 ﻿@page "/kanbanBoard"
-<h3>KanbanBoard</h3>
-<KanbanColumn columnName="Zieloni" status="Models.Status.ToDo" colorColumn="Models.myColor.warning" tasks="_tasks"></KanbanColumn>
+
+
+<h2 class="text-center"> Kanban Board </h2>
+<div class="row">
+	<KanbanColumn  status="Models.Status.ToDo" colorColumn="alert alert-danger" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop"/>
+	<KanbanColumn status="Models.Status.InProgress" colorColumn="alert alert-warning" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
+	<KanbanColumn status="Models.Status.Done" colorColumn="alert alert-success" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
+</div>
+
 

@@ -5,11 +5,11 @@ namespace KanbanBoard_Blazor.Models
 {
     public enum Status
     {
-        [Display(Name = "New")]
+        [Description("New")]
         ToDo,
-        [Display(Name = "Active")]
+        [Description("Active")]
         InProgress,
-        [Display(Name = "Resolved")]
+        [Description("Resolved")]
         Done
     }
 }
