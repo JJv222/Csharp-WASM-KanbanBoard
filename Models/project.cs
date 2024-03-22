@@ -1,8 +1,8 @@
 ﻿namespace KanbanBoard_Blazor.Models
 {
-	public class project
+	public class Project
 	{
-		public Guid id { get; set; }
-		public List<kanbanTask> tasks { get; set; }
+		public int id { get; set; }
+		public List<KanbanTask> tasks { get; set; }
 	}
 }

@@ -15,7 +15,7 @@ namespace KanbanBoard_Blazor.Pages
         public string columnName { get; set; }
 
         [Parameter][Required]
-        public List<kanbanTask> tasks { get; set; }
+        public List<KanbanTask> tasks { get; set; }
 
         [Parameter][Required]
         public string colorColumn { get; set; }
@@ -32,12 +32,12 @@ namespace KanbanBoard_Blazor.Pages
 
         //comunication with parent
         [Parameter]
-        public EventCallback<kanbanTask> OnDrag { get; set; }
+        public EventCallback<KanbanTask> OnDrag { get; set; }
         [Parameter]
         public EventCallback<Status> OnDrop { get; set; }
 
 
-        private void OnDragStart(kanbanTask task)
+        private void OnDragStart(KanbanTask task)
         {
             OnDrag.InvokeAsync(task);
         }

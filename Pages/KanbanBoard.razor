@@ -1,11 +1,17 @@
 ﻿@page "/kanbanBoard"
-
-
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 <h2 class="text-center"> Kanban Board </h2>
 <div class="row">
-	<KanbanColumn  status="Models.Status.ToDo" colorColumn="alert alert-danger" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop"/>
-	<KanbanColumn status="Models.Status.InProgress" colorColumn="alert alert-warning" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
-	<KanbanColumn status="Models.Status.Done" colorColumn="alert alert-success" tasks="_tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
+	<KanbanColumn status="Models.Status.ToDo" colorColumn="alert alert-danger" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
+	<KanbanColumn status="Models.Status.InProgress" colorColumn="alert alert-warning" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
+	<KanbanColumn status="Models.Status.Done" colorColumn="alert alert-success" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
 </div>
+<button @onclick=@( async ()=> ClearProject() )>clear</button>
 
 
+<EditForm Model="_addedTask" OnValidSubmit="@AddTask">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<InputText @bind-Value="_addedTask.description" />
+	<button type="submit">Add New Task</button>
+</EditForm>

@@ -1,5 +1,6 @@
-﻿using KanbanBoard_Blazor.Extensions;
+﻿ using KanbanBoard_Blazor.Extensions;
 using KanbanBoard_Blazor.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace KanbanBoard_Blazor.Pages
 {
@@ -7,34 +8,25 @@ namespace KanbanBoard_Blazor.Pages
     {
         
         public Status _status { get; set; }
-
-        private List<kanbanTask> _tasks { get; set; } = new();
-        private kanbanTask _currenTask;
+        private Project _project = new Project();
+        private KanbanTask _currenTask;
         private bool _isDragging = false;
+
+        [SupplyParameterFromForm] 
+        private KanbanTask _addedTask { get; set; } = new KanbanTask();
         // Methods
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
-            _tasks = new List<kanbanTask>
-            {
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 1", status = Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 2", status = Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 3", status = Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 4", status =Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 5", status = Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 6", status = Status.ToDo },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task7", status = Status.InProgress },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 8", status = Status.InProgress },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 9", status = Status.InProgress },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 10", status = Status.Done },
-                new kanbanTask { id = Guid.NewGuid(), description = "Task 11", status = Status.Done },
-            };
+            _addedTask.description = "Wprowadz nowe zadanie";
+            _project = await localStorage.GetItemAsync<Project>(_project.id.ToString()) ?? new Project();
         }
-        private void onStartDrag(kanbanTask task)
+        private void onStartDrag(KanbanTask task)
         {
             _currenTask = task;
             _isDragging = true;
         }
-        private void onDrop(Status newStatus)
+
+        private async void onDrop(Status newStatus)
         {
             if (_currenTask is not null && _isDragging)
             {
@@ -42,6 +34,29 @@ namespace KanbanBoard_Blazor.Pages
                 _currenTask = null;
                 _isDragging = false;
             }
+            await localStorage.ClearAsync();
+            await localStorage.SetItemAsync(_project.id.ToString(), _project);
+        }
+
+        // LocalStorage methods
+        private async Task AddTask()
+        {
+            if (_addedTask is not null)
+            {
+                if (_project.tasks is null)
+                {
+                    _project.tasks = new List<KanbanTask>();
+                }
+                _project.tasks.Add(new KanbanTask { description = _addedTask.description, status = Status.InProgress });
+                await localStorage.SetItemAsync(_project.id.ToString(), _project);
+            }
+        }
+
+        public async void ClearProject( )
+        {
+            _project.tasks.Clear();
+            await  localStorage.ClearAsync();
+            StateHasChanged();
         }
     }
 }
