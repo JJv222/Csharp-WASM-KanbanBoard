@@ -17,4 +17,4 @@
 
 </EditForm>
 <button class="btn btn-danger my-3 p-3 mx-2" @onclick=@( async ()=> ClearProject() )>Clear the board</button>
-<button class="btn btn-warning my-3 p-3 mx-2" @onclick=@( async ()=> DeleteProject() )>!Delete the board!</button>
+<button class="btn btn-warning my-3 p-3 mx-2" @onclick=@( async ()=> await DeleteProject() )>!Delete the board!</button>

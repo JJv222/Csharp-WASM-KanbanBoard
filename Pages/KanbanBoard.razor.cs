@@ -40,13 +40,15 @@ namespace KanbanBoard_Blazor.Pages
         {
             _addedTask.description = "New Task name...";
             _project = await localStorage.GetItemAsync<Project>(projectId) ?? new Project();
-            StateHasChanged();
+            var projects = await localStorage.GetItemAsync<List<Project>>("projects");
+			_project.name = projects.FirstOrDefault(p => p.id == projectId)?.name;
+			StateHasChanged();
         }
 
         protected override async Task OnInitializedAsync()
         {
            await LoadProject();
-        }
+		}
 
         private async Task AddTask()
         {
@@ -56,7 +58,7 @@ namespace KanbanBoard_Blazor.Pages
                 {
                     _project.tasks = new List<KanbanTask>();
                 }
-                _project.tasks.Add(new KanbanTask { description = _addedTask.description, status = Status.InProgress });
+                _project.tasks.Add(new KanbanTask { description = _addedTask.description, status = Status.ToDo });
 				await localStorage.SetItemAsync(projectId, _project);
 				await LoadProject();
             }
