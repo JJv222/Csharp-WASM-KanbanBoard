@@ -2,6 +2,7 @@
 using KanbanBoard_Blazor.Models;
 using Microsoft.AspNetCore.Components;
 
+
 namespace KanbanBoard_Blazor.Pages
 {
     public partial class KanbanBoard
@@ -37,8 +38,8 @@ namespace KanbanBoard_Blazor.Pages
         // LocalStorage methods
         private async Task LoadProject()
         {
-            _addedTask.description = "Wprowadz nowe zadanie";
-            _project = await localStorage.GetItemAsync<Project>(projectId) ?? new Project { id = projectId, name = "test test" };
+            _addedTask.description = "New Task name...";
+            _project = await localStorage.GetItemAsync<Project>(projectId) ?? new Project();
             StateHasChanged();
         }
 
@@ -67,5 +68,16 @@ namespace KanbanBoard_Blazor.Pages
             await  localStorage.RemoveItemAsync(projectId);
 			await LoadProject();
         }
-    }
+
+        public async Task DeleteProject()
+        {
+            var projects = await localStorage.GetItemAsync<List<Project>>("projects");
+            projects.Remove(projects.FirstOrDefault(_p=> _p.id == projectId));
+            await localStorage.SetItemAsync("projects", projects);
+			_project.tasks.Clear();
+			await localStorage.RemoveItemAsync(projectId);
+            uriHelper.NavigateTo("/",forceLoad:true);
+		}
+
+	}
 }

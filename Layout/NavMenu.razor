@@ -1,6 +1,4 @@
-﻿@using KanbanBoard_Blazor.Models
-@inject NavigationManager uriHelper;
-
+﻿
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">KanbanBoard_Blazor</a>
@@ -16,53 +14,20 @@
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
+            <KanbanBoard_Blazor.Pages.BoardMenager />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="kanbanBoard">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> KanbanBoard
-            </NavLink>
-        </div>
-		@foreach (var project in projects)
-		{
-            <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@($"kanbanBoard/{project.id}")" @onclick="@(() => NavigateToProject(project.id))">
-				<span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> KanbanBoard-@(project.name)
-			</NavLink>
-            </div>
-		}
     </nav>
 </div>
+
+
+
+
 
 @code {
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-	private List<Project> projects = new List<Project>();
-
-    private void NavigateToProject(string projectId)
-    {
-       if (int.TryParse(projectId, out int id))
-        {
-            uriHelper.NavigateTo($"kanbanBoard/{id}", forceLoad: true);
-        }
-    }
-
-	protected override void OnInitialized()
-	{
-		projects = new List<Project>
-		{
-			new Project
-			{
-				id = "1",
-				name = "Project 1",
-			},
-			new Project
-			{
-				id = "2",
-				name = "Project 2",
-			}
-		};
-	}
+ 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;

@@ -1,17 +1,20 @@
 ﻿@page "/kanbanBoard/{projectId}"
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
-<h2 class="text-center"> Kanban Board </h2>
+@inject NavigationManager uriHelper
+
+<h2 class="text-center">Project: @_project.name</h2>
 <div class="row">
 	<KanbanColumn status="Models.Status.ToDo" colorColumn="alert alert-danger" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
 	<KanbanColumn status="Models.Status.InProgress" colorColumn="alert alert-warning" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
 	<KanbanColumn status="Models.Status.Done" colorColumn="alert alert-success" tasks="_project.tasks" OnDrag="onStartDrag" OnDrop="onDrop" />
 </div>
-<button @onclick=@( async ()=> ClearProject() )>clear</button>
 
-
-<EditForm Model="_addedTask" OnValidSubmit="@AddTask">
+<EditForm class="form-check-inline my-2 p-2" Model="_addedTask" OnValidSubmit="@AddTask">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
-	<InputText @bind-Value="_addedTask.description" />
-	<button type="submit">Add New Task</button>
+	<InputText class="px-3" @bind-Value="_addedTask.description" />
+	<button class="btn btn-success my-3 p-3" type="submit">Add New Task</button>
+
 </EditForm>
+<button class="btn btn-danger my-3 p-3 mx-2" @onclick=@( async ()=> ClearProject() )>Clear the board</button>
+<button class="btn btn-warning my-3 p-3 mx-2" @onclick=@( async ()=> DeleteProject() )>!Delete the board!</button>

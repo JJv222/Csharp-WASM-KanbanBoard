@@ -1,0 +1,29 @@
+﻿@using Models
+
+<EditForm Model="project" class="my-3">
+	<DataAnnotationsValidator/>
+	<ValidationSummary/>
+	<InputText @bind-Value="project.name" />
+	<button class="btn-sm btn-success mt-2" type="submit" @onclick=@(()=>onSubmit(project.name))>Add New Project</button>
+</EditForm>
+
+
+
+
+
+@code {
+	private Project project = new Project();
+	[Parameter]
+	public EventCallback<string> newProjectName { get; set; }
+
+
+	protected override void OnInitialized()
+	{
+		project.name = "New Project name..";
+	}
+
+	private void onSubmit(string name)
+	{
+		newProjectName.InvokeAsync(name);
+	}
+}

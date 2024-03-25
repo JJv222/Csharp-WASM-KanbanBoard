@@ -1,6 +1,6 @@
 ﻿@using KanbanBoard_Blazor.Extensions
-
-<div class="col-md-3 dropzone bg-light p-3 m-5 border border-secondary rounded align-content-center " ondragover="event.preventDefault();" @ondrop=@(()=>OnDropTask(status))>
+<div class="col">
+<div class=" dropzone bg-light p-3 m-5 border border-secondary rounded align-content-center " ondragover="event.preventDefault();" @ondrop=@(()=>OnDropTask(status))>
     <h3 class="text-center bg-light pb-2 rounded-bottom-0">@columnName</h3>
     @if(tasks is not null) foreach (var _task in tasks.Where(x => x.status == status))
     {
@@ -9,4 +9,5 @@
              @_task.description
         </div>
     }
+</div>
 </div>
