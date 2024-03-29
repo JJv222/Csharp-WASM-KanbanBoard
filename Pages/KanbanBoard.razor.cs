@@ -76,7 +76,7 @@ namespace KanbanBoard_Blazor.Pages
             var projects = await localStorage.GetItemAsync<List<Project>>("projects");
             projects.Remove(projects.FirstOrDefault(_p=> _p.id == projectId));
             await localStorage.SetItemAsync("projects", projects);
-			_project.tasks.Clear();
+			if(_project.tasks is not null )_project.tasks.Clear();
 			await localStorage.RemoveItemAsync(projectId);
             uriHelper.NavigateTo("/",forceLoad:true);
 		}
